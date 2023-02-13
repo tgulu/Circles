@@ -1,22 +1,23 @@
-package com.example.cirlce
+package com.example.circle
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.transition.ChangeBounds
 import android.view.View
-import com.example.cirlce.databinding.ActivityMainBinding
+
 import android.transition.TransitionManager
+import com.example.circle.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     // Variable to store the selected count
     private var selectedCircleCount = 0
-    var currentViewState = ""
+    private var currentViewState = ""
 
     // Variable to store the current view
     private var currentView: View? = null
 
-    lateinit var  binding : ActivityMainBinding
+    private lateinit var binding : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -64,6 +65,7 @@ class MainActivity : AppCompatActivity() {
             binding.mainLayout.visibility=View.VISIBLE
         }
 
+        //transition for circle to line view
         val viewTransition = ChangeBounds()
         viewTransition.duration = 300
 

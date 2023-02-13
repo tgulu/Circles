@@ -1,4 +1,4 @@
-package com.example.cirlce
+package com.example.circle
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
