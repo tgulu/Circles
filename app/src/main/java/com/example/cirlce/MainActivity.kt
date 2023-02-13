@@ -2,140 +2,114 @@ package com.example.cirlce
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.transition.ChangeBounds
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RelativeLayout
+import com.example.cirlce.databinding.ActivityMainBinding
+import android.transition.TransitionManager
 
 class MainActivity : AppCompatActivity() {
 
     // Variable to store the selected count
-    private var selectedCount = 0
+    private var selectedCircleCount = 0
+    var currentViewState = ""
 
     // Variable to store the current view
     private var currentView: View? = null
 
+    lateinit var  binding : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val mainLayout by lazy {
-            RelativeLayout(this).apply {
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-            }
-        }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         fun createCircleView(context: Context, selectedCount: Int): View {
             val circleView = CircleView(context, selectedCount)
-            mainLayout.addView(circleView)
+            binding.mainLayout.addView(circleView)
             return circleView
         }
 
         fun createLineView(context: Context, selectedCount: Int): View {
             val lineView = LineView(context, selectedCount)
-            mainLayout.addView(lineView)
+            binding.mainLayout.addView(lineView)
             return lineView
         }
 
-        val tenCircleButton = Button(this)
-        tenCircleButton.id = R.id.ten_circle_button
-        tenCircleButton.text = "10"
-        val tenCircleParams = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.WRAP_CONTENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT)
-        tenCircleParams.addRule(RelativeLayout.ALIGN_PARENT_TOP)
-        tenCircleParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
-        tenCircleButton.layoutParams = tenCircleParams
-        mainLayout.addView(tenCircleButton)
-
-        val sevenCircleButton = Button(this)
-        sevenCircleButton.id = R.id.seven_circle_button
-        sevenCircleButton.text = "7"
-        val sevenCircleParams = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.WRAP_CONTENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT)
-        sevenCircleParams.addRule(RelativeLayout.CENTER_HORIZONTAL)
-        sevenCircleButton.layoutParams = sevenCircleParams
-        mainLayout.addView(sevenCircleButton)
-
-        val fiveCircleButton = Button(this)
-        fiveCircleButton.id = R.id.five_circle_button
-        fiveCircleButton.text = "5"
-        val fiveCircleParams = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.WRAP_CONTENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT)
-        fiveCircleParams.addRule(RelativeLayout.ALIGN_PARENT_TOP)
-        fiveCircleParams.addRule((RelativeLayout.ALIGN_PARENT_LEFT))
-        fiveCircleButton.layoutParams = fiveCircleParams
-        mainLayout.addView(fiveCircleButton)
-
-        val lineButton = Button(this)
-        lineButton.id = R.id.line_button
-        lineButton.text = "Line"
-        val lineParams = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.WRAP_CONTENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT)
-        lineParams.addRule(RelativeLayout.BELOW, fiveCircleButton.id)
-        lineParams.addRule(RelativeLayout.ALIGN_PARENT_START)
-        lineButton.layoutParams = lineParams
-        mainLayout.addView(lineButton)
-
-        val circleButton = Button(this)
-        circleButton.id = R.id.circle_button
-        circleButton.text = "Circle"
-        val circleParams = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.WRAP_CONTENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT)
-        circleParams.addRule(RelativeLayout.BELOW, tenCircleButton.id)
-        circleParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
-        circleButton.layoutParams = circleParams
-        mainLayout.addView(circleButton)
-
-        setContentView(mainLayout)
-        mainLayout.invalidate()
-
-        tenCircleButton.setOnClickListener {
-            selectedCount = 10
-            currentView = createCircleView(this, selectedCount)
-            currentView = createLineView(this, selectedCount)
+        binding.tenCircleButton.setOnClickListener {
+            selectedCircleCount = 10
+            currentView = if (currentViewState=="circle"){
+                createCircleView(this, selectedCircleCount)
+            } else{
+                createLineView(this, selectedCircleCount)
+            }
+            binding.mainLayout.visibility=View.VISIBLE
         }
 
-        sevenCircleButton.setOnClickListener {
-            selectedCount = 7
-            currentView = createCircleView(this, selectedCount)
-            currentView = createLineView(this, selectedCount)
+        binding.sevenCircleButton.setOnClickListener {
+            selectedCircleCount = 7
+            currentView = if (currentViewState=="circle"){
+                createCircleView(this, selectedCircleCount)
+            } else{
+                createLineView(this, selectedCircleCount)
+            }
+            binding.mainLayout.visibility=View.VISIBLE
         }
 
-        fiveCircleButton.setOnClickListener {
-            selectedCount = 5
-            currentView = createCircleView(this, selectedCount)
-            currentView = createLineView(this, selectedCount)
+        binding.fiveCircleButton.setOnClickListener {
+            selectedCircleCount = 5
+            currentView = if (currentViewState=="circle"){
+                createCircleView(this, selectedCircleCount)
+            } else{
+                createLineView(this, selectedCircleCount)
+            }
+            binding.mainLayout.visibility=View.VISIBLE
         }
 
-        lineButton.setOnClickListener {
-            currentView = when (selectedCount) {
+        val viewTransition = ChangeBounds()
+        viewTransition.duration = 300
+
+        binding.lineButton.setOnClickListener {
+
+            currentViewState = "line"
+            binding.sevenCircleButton.visibility = View.VISIBLE
+            binding.fiveCircleButton.visibility = View.VISIBLE
+            binding.tenCircleButton.visibility = View.VISIBLE
+
+            TransitionManager.beginDelayedTransition(binding.mainLayout, viewTransition)
+            currentView = when (selectedCircleCount) {
                 5 -> createLineView(this, 5)
                 7 -> createLineView(this, 7)
                 10 -> createLineView(this, 10)
                 else -> {
                     createLineView(this, 10)
-
                 }
             }
         }
 
-        circleButton.setOnClickListener {
-            currentView = when (selectedCount) {
+        binding.circleButton.setOnClickListener {
+
+            currentViewState = "circle"
+            binding.sevenCircleButton.visibility = View.VISIBLE
+            binding.fiveCircleButton.visibility = View.VISIBLE
+            binding.tenCircleButton.visibility = View.VISIBLE
+
+            TransitionManager.beginDelayedTransition(binding.mainLayout, viewTransition)
+            currentView = when (selectedCircleCount) {
                 5 -> createCircleView(this, 5)
                 7 -> createCircleView(this, 7)
                 10 -> createCircleView(this, 10)
                 else -> {
                     createCircleView(this, 10)
-
                 }
             }
         }
     }
 }
+
+
+
+
+
+
+
+
+

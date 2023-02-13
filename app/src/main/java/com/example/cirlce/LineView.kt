@@ -1,5 +1,4 @@
 package com.example.cirlce
-
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -21,11 +20,11 @@ class LineView(context: Context, var count: Int) : View(context) {
         // Clear the canvas of any previous drawings
         canvas?.drawColor(Color.WHITE)
 
-        //Calculate circles for the perpendicular line
+        //Calculate circles co-ordinates for the perpendicular line
         for (i in 0 until count) {
-            val circleRadius = 40f
+            val circleRadius = 60f
             val circleX = (width / (count + 1) * (i + 1)).toFloat()
-            val circleY = height / 2f
+            val circleY = height / 3.5f
             canvas?.drawCircle(circleX, circleY, circleRadius, paint)
         }
     }
