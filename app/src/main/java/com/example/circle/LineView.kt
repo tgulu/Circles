@@ -1,4 +1,5 @@
 package com.example.circle
+
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -13,6 +14,7 @@ class LineView(context: Context, var count: Int) : View(context) {
         strokeWidth = 3f
 
     }
+
     override fun onDraw(canvas: Canvas?) {
 
         super.onDraw(canvas)

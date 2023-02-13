@@ -1,4 +1,5 @@
 package com.example.circle
+
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     // Variable to store the current view
     private var currentView: View? = null
 
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -37,32 +38,32 @@ class MainActivity : AppCompatActivity() {
 
         binding.tenCircleButton.setOnClickListener {
             selectedCircleCount = 10
-            currentView = if (currentViewState=="circle"){
+            currentView = if (currentViewState == "circle") {
                 createCircleView(this, selectedCircleCount)
-            } else{
+            } else {
                 createLineView(this, selectedCircleCount)
             }
-            binding.mainLayout.visibility=View.VISIBLE
+            binding.mainLayout.visibility = View.VISIBLE
         }
 
         binding.sevenCircleButton.setOnClickListener {
             selectedCircleCount = 7
-            currentView = if (currentViewState=="circle"){
+            currentView = if (currentViewState == "circle") {
                 createCircleView(this, selectedCircleCount)
-            } else{
+            } else {
                 createLineView(this, selectedCircleCount)
             }
-            binding.mainLayout.visibility=View.VISIBLE
+            binding.mainLayout.visibility = View.VISIBLE
         }
 
         binding.fiveCircleButton.setOnClickListener {
             selectedCircleCount = 5
-            currentView = if (currentViewState=="circle"){
+            currentView = if (currentViewState == "circle") {
                 createCircleView(this, selectedCircleCount)
-            } else{
+            } else {
                 createLineView(this, selectedCircleCount)
             }
-            binding.mainLayout.visibility=View.VISIBLE
+            binding.mainLayout.visibility = View.VISIBLE
         }
 
         //transition for circle to line view
