@@ -9,3 +9,4 @@ How it works:
 5. Press the button labelled line, and it makes all the circles go horizontally perpendicular to each other.
 
 
+![](In Circles.mov)
